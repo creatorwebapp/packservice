@@ -8,11 +8,11 @@ export default function LoginPage (){
         <>
             <div className="home_page">
                 <div className="container">
-                    <Input/>
+                    <Input placeholder="id-woker" typeinput="text" flag="true"/>
                     <div className="margin_block"></div>
-                    <Input/>
+                    <Input placeholder="password" typeinput="password" flag="false"/>
                     <div className="margin_block"></div>
-                    <Link to={"new_product"}>
+                    <Link to={"work_page"}>
                         <Button content="Login"/>
                     </Link>
                 </div>

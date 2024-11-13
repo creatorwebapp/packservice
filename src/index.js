@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     element:(<ScanPage/>)
   },
   {
-    path:"work_page",
+    path:"login/work_page",
     element:(<WorkPage/>)
   }
 ]);
