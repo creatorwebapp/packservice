@@ -1,0 +1,10 @@
+
+:root{
+    --main-bg-color:#e27d60;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    background-color: var(--main-bg-color);
+}
