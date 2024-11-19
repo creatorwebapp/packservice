@@ -9,8 +9,8 @@ export default function NewProduct (){
     function setter(ev){
         
          setScanComponent(<BarcodeScannerComponent
-             width={500}
-             height={500}
+             width={400}
+             height={300}
              onUpdate={(err, result) => {
                  if (result) {
                      setScanData(result.text)
