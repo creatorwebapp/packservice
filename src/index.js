@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {
   createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
+  RouterProvider
 } from "react-router-dom";
 import LoginPage from './pages/login_page/LoginPage';
 import HomePage from './pages/home_page/HomePage';
@@ -25,7 +23,7 @@ const router = createBrowserRouter([
     element: (<LoginPage/>),
   },
   {
-    path:"login/new_product",
+    path:"login/work_page/new_product",
     element: (<NewProduct/>)
   },
   {
