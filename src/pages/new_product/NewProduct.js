@@ -1,7 +1,8 @@
 import BarcodeScannerComponent from "react-qr-barcode-scanner"
 import Button from "../../components/button/button"
-import { Link } from "react-router-dom"
-import { useState, useRef, useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
+import Webcam from "react-webcam"
+import "./NewProductStyle.scss";
 
 export default function NewProduct (){
     const [scanData, setScanData] = useState("")
@@ -21,28 +22,25 @@ export default function NewProduct (){
              }}
          />)
     }
-    const [makeFirstPhoto, setMakeFirstPhoto] = useState(<span onClick={()=>setter()}><Button content="Firts Photo"/></span>)
-    const videoRef = useRef()
-    const canvasRef = useRef()
+    const [videostream, setVideostream] = useState(<span onClick={()=>setter()}><Button content="Firts Photo"/></span>)
+    const videoRef = useRef(null)
     
     function setter(){
-        navigator.mediaDevices.getUserMedia({
-            audio: false,
-            video: true
-        }).then((stream)=>{
-            videoRef.current.srcObject = stream
-            videoRef.current.onloadedmetadata = ()=>videoRef.current.play()
-        })
-        setMakeFirstPhoto(<video playsInline muted ref={videoRef}></video>)
+        
+        setVideostream(<div><Webcam ref={videoRef} audio={false} mirrored={true} screenshotFormat="image/jpeg" screenshotQuality={1}/><span onClick={()=>makephoto()}><Button content="Make Photo"/></span></div>)
     }
-
+    const [arrPhoto, setArrPhoto] = useState([])
+    
     const makephoto = () =>{
-        const videoWidth = videoRef.current.scrolWidth
-        const videoHeight = videoRef.current.scrolHeight
-        canvasRef.current.width = videoWidth
-        canvasRef.current.height = videoHeight
-        canvasRef.current.getContext("2d").drawImage(videoRef.current, 0, 0, videoWidth, videoHeight   )
+       const photo = videoRef.current.getScreenshot()
+       console.log(photo);
+       
+       let arr = arrPhoto
+       arr.push(photo)
+       setArrPhoto(arr)
     }
+    
+
     return(
         <>
             <div className="home_page">
@@ -50,7 +48,19 @@ export default function NewProduct (){
                     {scanComponent}
                     {scanData}
                     <div className="margin_block"></div>
-                    {makeFirstPhoto}
+                    <div className="img_list">
+                    {
+                        arrPhoto.map((i, el)=>{
+                            console.log(el);
+                            
+                            return(
+                                <img key={i} src={el}/>
+                            )
+                        })
+                    }
+                    </div>
+                    <div className="margin_block"></div>
+                    {videostream}
                 </div>
             </div>
         </>
