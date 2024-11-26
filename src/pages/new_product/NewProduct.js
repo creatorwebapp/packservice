@@ -24,27 +24,33 @@ export default function NewProduct (){
     }
     const [videostream, setVideostream] = useState(<span onClick={()=>setter()}><Button content="Firts Photo"/></span>)
     const videoRef = useRef(null)
-   
+    const[saveData, setSaveData] = useState(<></>)
     function setter(){
         
         setVideostream(
             <div>
                 <Webcam 
-                    width={400}
+                    width={`100%`}
                     height={300}
                     ref={videoRef} 
                     audio={false} 
-                    mirrored={true} 
+                    mirrored={false} 
                     screenshotFormat="image/png" 
                     screenshotQuality={1}
                     videoConstraints={{
-                        facingMode: {exact: "environment"}
-                        //facingMode: {exact: "user"}
+                        //facingMode: {exact: "environment"}
+                        facingMode: {exact: "user"}
                     }}
                 />
-                <span onClick={()=>handleScreenshot()}>
-                    <Button content="Make Photo"/>
-                </span>
+                <div>
+                    <span onClick={()=>handleScreenshot()}>
+                        <Button content="Make Photo"/>
+                    </span>
+                    <span onClick={()=>finishPhoto()}>
+                        <Button content="Finish Photo"/>
+                    </span>
+                </div>
+                
             </div>
         )
     }
@@ -53,10 +59,6 @@ export default function NewProduct (){
     const makephoto = () =>{
        const photo = videoRef.current.getScreenshot()
        return photo
-
-    //    let arr = arrPhoto
-    //    arr.push(<img key={dateStamp} src={photo} width={100} height={100}/>)
-    //    setArrPhoto(arr)
     }
    
     const handleScreenshot = () => {
@@ -64,24 +66,32 @@ export default function NewProduct (){
         setArrPhoto(prevScreen => [...prevScreen, newScrenShot])
     }
 
+    const finishPhoto = ()=>{
+        setVideostream(<></>)
+        setSaveData(<span><Button content="Save Data"/></span>)
+    }
     return(
         <>
             <div className="screenshot_container">
                 <div className="">
+                    
                     {scanComponent}
+                    <div className="margin_block"></div>
                     {scanData}
+                    <div className="margin_block"></div>
+                    {videostream}
                     <div className="margin_block"></div>
                     <div className="img_list">
                     {
                          arrPhoto.map((el, i) => {
                             return(
-                                <img width={130} height={100} key={i} src={el}/>
+                                <img style={{margin:"2px"}} width={130} height={100} key={i} src={el}/>
                             )
                          })
                     }
                     </div>
                     <div className="margin_block"></div>
-                    {videostream}
+                    {saveData}
                 </div>
             </div>
         </>
