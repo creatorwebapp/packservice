@@ -24,12 +24,14 @@ export default function NewProduct (){
     }
     const [videostream, setVideostream] = useState(<span onClick={()=>setter()}><Button content="Firts Photo"/></span>)
     const videoRef = useRef(null)
-    const [facing, setFacing] = useState("user")
+   
     function setter(){
         
         setVideostream(
             <div>
                 <Webcam 
+                    width={400}
+                    height={300}
                     ref={videoRef} 
                     audio={false} 
                     mirrored={true} 
@@ -37,6 +39,7 @@ export default function NewProduct (){
                     screenshotQuality={1}
                     videoConstraints={{
                         facingMode: {exact: "environment"}
+                        //facingMode: {exact: "user"}
                     }}
                 />
                 <span onClick={()=>handleScreenshot()}>
@@ -63,8 +66,8 @@ export default function NewProduct (){
 
     return(
         <>
-            <div className="home_page screenshot_container">
-                <div className="container">
+            <div className="screenshot_container">
+                <div className="">
                     {scanComponent}
                     {scanData}
                     <div className="margin_block"></div>
@@ -72,14 +75,13 @@ export default function NewProduct (){
                     {
                          arrPhoto.map((el, i) => {
                             return(
-                                <img key={i} src={el}/>
+                                <img width={130} height={100} key={i} src={el}/>
                             )
                          })
                     }
                     </div>
                     <div className="margin_block"></div>
                     {videostream}
-                    <Button content="swap" onClick={()=>setFacing(facing === "user"? "environment" : "user")}/>
                 </div>
             </div>
         </>
