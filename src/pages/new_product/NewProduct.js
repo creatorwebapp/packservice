@@ -24,43 +24,62 @@ export default function NewProduct (){
     }
     const [videostream, setVideostream] = useState(<span onClick={()=>setter()}><Button content="Firts Photo"/></span>)
     const videoRef = useRef(null)
-    
+    const [facing, setFacing] = useState("user")
     function setter(){
         
-        setVideostream(<div><Webcam ref={videoRef} audio={false} mirrored={true} screenshotFormat="image/jpeg" screenshotQuality={1}/><span onClick={()=>makephoto()}><Button content="Make Photo"/></span></div>)
+        setVideostream(
+            <div>
+                <Webcam 
+                    ref={videoRef} 
+                    audio={false} 
+                    mirrored={true} 
+                    screenshotFormat="image/png" 
+                    screenshotQuality={1}
+                    videoConstraints={{
+                        facingMode: {exact: facing}
+                    }}
+                />
+                <span onClick={()=>handleScreenshot()}>
+                    <Button content="Make Photo"/>
+                </span>
+            </div>
+        )
     }
     const [arrPhoto, setArrPhoto] = useState([])
     
     const makephoto = () =>{
        const photo = videoRef.current.getScreenshot()
-       console.log(photo);
-       
-       let arr = arrPhoto
-       arr.push(photo)
-       setArrPhoto(arr)
+       return photo
+
+    //    let arr = arrPhoto
+    //    arr.push(<img key={dateStamp} src={photo} width={100} height={100}/>)
+    //    setArrPhoto(arr)
     }
-    
+   
+    const handleScreenshot = () => {
+        const newScrenShot = makephoto()
+        setArrPhoto(prevScreen => [...prevScreen, newScrenShot])
+    }
 
     return(
         <>
-            <div className="home_page">
+            <div className="home_page screenshot_container">
                 <div className="container">
                     {scanComponent}
                     {scanData}
                     <div className="margin_block"></div>
                     <div className="img_list">
                     {
-                        arrPhoto.map((i, el)=>{
-                            console.log(el);
-                            
+                         arrPhoto.map((el, i) => {
                             return(
                                 <img key={i} src={el}/>
                             )
-                        })
+                         })
                     }
                     </div>
                     <div className="margin_block"></div>
                     {videostream}
+                    <Button content="swap" onClick={()=>setFacing(facing === "user"? "environment" : "user")}/>
                 </div>
             </div>
         </>
