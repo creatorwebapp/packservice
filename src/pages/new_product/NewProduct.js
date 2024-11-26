@@ -38,8 +38,8 @@ export default function NewProduct (){
                     screenshotFormat="image/png" 
                     screenshotQuality={1}
                     videoConstraints={{
-                        //facingMode: {exact: "environment"}
-                        facingMode: {exact: "user"}
+                        facingMode: {exact: "environment"}
+                        //facingMode: {exact: "user"}
                     }}
                 />
                 <div>
